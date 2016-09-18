@@ -48,12 +48,6 @@
 				<textarea name="room_detail" id="room_detail" class="form-control input-sm" maxlength="100" required></textarea>
 			</td>
 		</tr>
-<!-- 		<tr>
-			<td><label>Status : </label><br>
-				<label class="radio-inline"><input type="radio" name="brand_status" id="brand_status" value="1" required>Active</label>
-				<label class="radio-inline"><input type="radio" name="brand_status" id="brand_status" value="0" required checked>Inactive</label>
-			</td>
-		</tr> -->
 		<tr>
 			<td>
 				<input type="reset" value="Reset" class="btn btn-default pull-right">

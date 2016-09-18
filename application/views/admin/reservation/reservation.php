@@ -35,7 +35,7 @@
         <h4 class="modal-title" id="reservation_room_name"></h4>
       </div>
       <div class="modal-body">
-        <label for="reservation_name">Date</label>
+        <label for="reservation_date">Date</label>
         <input type="date" value="" name="reservation_date" id="reservation_date" class="form-control input-sm" required>
       </div>
       <div class="modal-footer">
@@ -108,7 +108,7 @@
                     alert('Something went wrong!');
                 }
             },
-            error: function(result){
+            error: function(){
                 alert('Something went wrong!');
             }
         });
@@ -128,7 +128,7 @@
                     alert('Delete success');
                     window.location.reload();
                 },
-                error: function(result){
+                error: function(){
                     alert('Delete failed');
             }});
         }

@@ -52,12 +52,16 @@ $dbnum = 1;
 
 if($dbnum == 1){
 	$db['default']['hostname'] = 'localhost';
+    $db['default']['username'] = 'root';
+    $db['default']['password'] = '';
 }else{
 	$db['default']['hostname'] = 'painaifun.com';
+    $db['default']['username'] = 'painaifunc_db';
+    $db['default']['password'] = 'aQEL9J0L';
 }
 
-$db['default']['username'] = 'painaifunc_db';
-$db['default']['password'] = 'aQEL9J0L';
+//$db['default']['username'] = 'painaifunc_db';
+//$db['default']['password'] = 'aQEL9J0L';
 $db['default']['database'] = 'painaifunc_db';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
