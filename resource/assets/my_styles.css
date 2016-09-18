@@ -1,0 +1,201 @@
+body{
+	background-color: #F5F5F5;
+	font-family: 'Roboto', sans-serif;
+}
+
+#signInCard
+{	
+	background-color: #FFF;
+	top: 70px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 500px;
+	box-shadow: 1px 1px 6px #9E9E9E;
+	width: 330px;
+}
+
+#signLogo{
+	background-color: #FFF;
+	margin-top: 5px;	
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+#signLogo img{
+	width: 320px;
+}
+
+#authForm{
+	margin-top: -12px;
+}
+
+#TextField1{
+	top: 0px;
+}
+
+#TextField2{
+	top: -17px;
+}
+
+.mdl-textfield__label:after {
+	background-color : #4caf50;
+}
+
+#signInButton{
+	top: -17px;
+	float: right;
+}
+
+#signInButton:hover{
+	background-color : #4caf50;
+	color: #FFF;
+}
+
+#manageCard {
+	width: 320px;
+	height: 320px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#manageCard > .mdl-card__title {
+	color: #757575;
+	font-weight: bold;
+	background: bottom right 15% no-repeat;
+}
+
+.mdl-card > .mdl-card__media {
+	background-color: #4AAE52;
+}
+
+#manageCell {
+	margin-top: 30px;
+}
+
+#navHeader{
+	background-color: #37474F;
+	color: #FAFAFA;
+}
+
+#sideMenu{
+	margin-top:-16px;
+}
+
+#sideBar{
+	background-color: #37474F;
+	color: #FFF;
+	border: 0px;
+}
+
+#sideImg{
+	height: 240px;
+	background-color: #263238;
+}
+
+#sideImg img{
+	width: 239px;
+	margin-left: -40px;
+}
+
+#sideMenu a{
+	color: #9E9E9E;
+	font-weight: bold;
+}
+
+#sideMenu a:hover{
+	background-color: #455A64;
+}
+
+#manageCard > .mdl-card__title{
+	background-color: #4AAE52;
+	color:#FAFAFA;
+}
+
+#gridCont{
+	margin-top: 7px;
+	background-color: #F5F5F5;
+	height: auto;
+}
+
+#gridCard{
+	width: auto;
+	height: auto;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#roomTable{
+	width: 100%;
+	padding: 0px;
+}
+
+#roomTable thead{
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#roomTable tbody{
+	width: 100%;
+}
+
+#handCursor{
+	cursor: pointer; 
+	cursor: hand;
+}
+#handCursor:active{
+	background-color: #263238;
+}
+
+#resvTable{
+	width: 100%;
+}
+
+#resvInfo{
+	width: auto;
+}
+
+#resvDes{
+	width: auto;
+	margin-right: auto;
+	margin-left: auto;
+	box-shadow: 0px 0px 1px #212121;
+}
+
+#resvDes img{
+	width: 200px;
+	height: 200px;
+	margin-right: auto;
+	margin-left: auto;
+	box-shadow: 0px 0px 1px #212121;
+}
+
+#resvTitle{
+	height: 20px;
+	font-weight: bold;
+	color: #FAFAFA;
+	background-color: #263238;
+}
+
+#room_info{
+	width: 308px;
+	height: 250px;
+	resize: none;
+}
+
+#addSubRoom{
+	margin-left: auto;
+}
+
+#div_img{
+	margin-left: auto;
+}
+
+#imgpath {
+	width:500px;
+}
+
+#imagena{
+	width: 50px;
+		height: 50px;
+}

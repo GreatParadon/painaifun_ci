@@ -1,0 +1,47 @@
+body{
+	background-color: #FFF;
+  	height: 768px;
+}
+
+#signInCard
+{	
+	background-color: #FFF;
+	top : 100px;
+	margin-right: auto;
+  	margin-left: auto;
+  	height: 475px;
+  	box-shadow: 1px 1px 6px #4caf50;
+}
+
+#signLogo{
+	background-color: #FFF;
+	margin-top: 5px;	
+	margin-right: 5px;
+  	margin-left: 5px;
+}
+
+#signInCard div img{
+	width:320px;
+}
+
+#TextField1{
+	top: 15px;
+}
+
+#TextField2{
+	top: -5px;
+}
+
+.mdl-textfield__label:after {
+	background-color : #4caf50;
+}
+
+#signInButton{
+	top: -12px;	
+	margin-left: 75%;
+}
+
+#signInButton:hover{
+	background-color : #4caf50;
+	color: #FFF;
+}
