@@ -58,12 +58,5 @@ class reservation_model extends CI_Model {
 		$this->db->delete('reservation');
 	}
 
-	public function getSearchResult($searchData){
-		$sql = "SELECT `subroom.room_capa_id`, `room.room_name, room.room_cost`, `room.room_type`, `room.room_capacity`, `room.room_thumbs`
-				FROM subroom INNER JOIN room ON `subroom.room_id`=`room.room_id`
-				WHERE '".$searchData['toDate']."' < room_checkin or '".$searchData['fromDate']."' > room_checkout ";
-		$query = $this->db->query($sql);
-		return $query->result_array();
-	}
 }
 ?>

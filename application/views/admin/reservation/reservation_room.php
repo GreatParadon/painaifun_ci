@@ -27,31 +27,6 @@
             </h1>
         </section>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="reservation_room_name"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <label for="reservation_date">Date</label>
-                        <input type="date" value="" name="reservation_date" id="reservation_date"
-                               class="form-control input-sm" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" id="saveReservButton"
-                                onclick="onAddReservation()">SAVE
-                        </button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-
         <section class="content">
             <div class="box box-success">
                 <div class="box-header with-border">
@@ -70,17 +45,6 @@
                         </thead>
                         <tbody>
                         <?php
-
-                        function DateThai($strDate)
-                        {
-                            $strYear = date("Y", strtotime($strDate)) + 543;
-                            $strMonth = date("n", strtotime($strDate));
-                            $strDay = date("j", strtotime($strDate));
-                            $strMonthCut = Array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                            $strMonthThai = $strMonthCut[$strMonth];
-                            $subYear = substr($strYear, 2);
-                            return "$strDay $strMonthThai $subYear";
-                        }
 
                         foreach ($reservation_select as $r) {
                             $editpath = base_url('admin/reservation/' . $r["reservation_id"] . '');
