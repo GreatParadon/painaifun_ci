@@ -11,9 +11,7 @@ class reservation_controller extends CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
         $this->load->library('session');
-
     }
-
 
     public function index()
     {
@@ -92,9 +90,12 @@ class reservation_controller extends CI_Controller
             $reservation_update_data = array('reservation_customer_name' => $this->input->post('reservation_name'),
                 'reservation_tel' => $this->input->post('reservation_tel'),
                 'reservation_guest' => $this->input->post('reservation_guest'),
+                'reservation_child' => $this->input->post('reservation_child'),
                 'reservation_cost' => $this->input->post('reservation_cost'),
                 'reservation_agency' => $this->input->post('reservation_agency'),
-                'reservation_status' => $this->input->post('reservation_status')
+                'reservation_status' => $this->input->post('reservation_status'),
+                'out_balance' => $this->input->post('out_balance'),
+                'note' => $this->input->post('note')
             );
             $reservation_update = $this->reservation_model->updateReservation($reservation_update_data, $id);
             $this->output->set_content_type('application/json')->set_output(json_encode(array('success' => true, 'message' => 'Update Success')));

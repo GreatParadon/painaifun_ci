@@ -7,7 +7,9 @@
     <?php include(dirname(__FILE__) . '../../admin_headtag.php'); ?>
 
     <style type="text/css" media="screen">
-
+        textarea {
+            resize: vertical;
+        }
     </style>
 
 </head>
@@ -60,26 +62,38 @@
                         <label for="reservation_tel">เบอร์โทรศัพท์ ติดต่อ</label>
                         <input type="text" value="" name="reservation_tel" id="reservation_tel"
                                class="form-control input-sm" required>
-                        <label for="reservation_guest">จำนวนแขก</label>
+                        <label for="reservation_guest">จำนวนผู้ใหญ่</label>
                         <input type="number" value="" name="reservation_guest" id="reservation_guest"
-                               class="form-control input-sm" min="1" required>
+                               class="form-control input-sm" min="0" required>
+                        <label for="reservation_child">จำนวนเด็ก(ต่ำกว่า10ขวบ)</label>
+                        <input type="number" value="" name="reservation_child" id="reservation_child"
+                               class="form-control input-sm" min="0" required>
                         <label for="reservation_cost">ราคา</label>
                         <input type="number" value="" name="reservation_cost" id="reservation_cost"
                                class="form-control input-sm" min="0" required>
-                        <label for="reservation_agency">เอเจนซี่</label>
-                        <select name="reservation_agency" id="reservation_agency" class="form-control input-sm"
-                                required>
-                            <option value="0">None Agency</option>
-                            <option value="1">Agoda</option>
-                            <option value="2">Booking</option>
+                        <label for="agency">เอเจนซี่</label>
+                        <select name="agency" id="agency" class="form-control input-sm"
+                                required onchange="changeAgency()">
+                            <option value="None Agency">None Agency</option>
+                            <option value="Agoda">Agoda</option>
+                            <option value="Booking">Booking</option>
+                            <option value="Expedia">Expedia</option>
+                            <option value="WAKA">WAKA</option>
+                            <option value="Other">Other</option>
                         </select>
+                        <input type="hidden" name="reservation_agency" id="reservation_agency"
+                               class="form-control input-sm" required placeholder="Other Agency">
                         <label for="reservation_status">สถานะ</label>
                         <select name="reservation_status" id="reservation_status" class="form-control input-sm"
-                                required>
+                                required onchange="changeStatus()">
                             <option value="0">ว่าง</option>
-                            <option value="1">จอง</option>
-                            <option value="2">จ่ายแล้ว</option>
+                            <option value="1">จอง(ค้างชำระ)</option>
+                            <option value="2">จ่ายครบจำนวน</option>
                         </select>
+                        <input type="hidden" name="out_balance" id="out_balance"
+                               class="form-control input-sm" min="0" required placeholder="ยอดค้างชำระ">
+                        <label for="note">หมายเหตุ</label>
+                        <textarea name="note" id="note" class="form-control input-sm" required rows="10"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
@@ -87,6 +101,27 @@
                             SAVE
                         </button>
                     </div>
+                    <script>
+                        function changeAgency() {
+                            var reservation_agency = $("#agency").val();
+                            if (reservation_agency == 'Other') {
+                                $("#reservation_agency").prop('type', 'text');
+                                $("#reservation_agency").val('');
+                            } else {
+                                $("#reservation_agency").prop('type', 'hidden');
+                                $("#reservation_agency").val(reservation_agency);
+                            }
+                        }
+
+                        function changeStatus() {
+                            var reservation_status = $("#reservation_status").val();
+                            if (reservation_status == 1) {
+                                $("#out_balance").prop('type', 'number');
+                            } else {
+                                $("#out_balance").prop('type', 'hidden');
+                            }
+                        }
+                    </script>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -98,16 +133,6 @@
                 <div class="row">
 
                     <?php
-
-//                    for ($i = 0; $i <= 27; $i++) {
-//                        if ($reservation_show[$i]['reservation_agency'] == 0) {
-//                            $reservation_agency[$i] = '';
-//                        } else if ($reservation_show[$i]['reservation_agency'] == 1) {
-//                            $reservation_agency[$i] = 'Agoda';
-//                        } else {
-//                            $reservation_agency[$i] = 'Booking';
-//                        }
-//                    }
 
                     $reservation_room = array('7' => ['7'],
                         '16' => ['19', '18', '17', '16'],
@@ -150,14 +175,7 @@
                                                     <?= '<b>ราคา: </b>' . $reservation_show[$r]['reservation_cost']; ?>
                                                 </td>
                                                 <td>
-                                                    <b>เอเจนซี่: </b>
-                                                    <?php if ($reservation_show[$r]['reservation_agency'] == 0) {
-                                                        echo '-';
-                                                    } elseif ($reservation_show[$r]['reservation_agency'] == 1) {
-                                                        echo 'Agoda';
-                                                    } else {
-                                                        echo 'Booking';
-                                                    } ?>
+                                                    <?= '<b>เอเจนซี่: </b>' . $reservation_show[$r]['reservation_agency']; ?>
                                                 </td>
                                                 <td>
                                                     <?php if ($reservation_show[$r]['reservation_status'] == 0) {
@@ -191,23 +209,46 @@
         console.log(id);
         $.ajax({
             url: '<?php echo base_url("admin/reservation/'+id+'/edit")?>',
-            tpye: 'GET',
+            type: 'GET',
             dataType: 'json',
             success: function (result) {
                 $("#reservation_name").empty();
                 $("#reservation_tel").empty();
                 $("#reservation_guest").empty();
+                $("#reservation_child").empty();
                 $("#reservation_cost").empty();
-                // $("#reservation_agency").empty();
+//                $("#reservation_agency").empty();
+//                $("#reservation_status").empty();
+                $("#out_balance").empty();
+                $("#note").empty();
 
                 if (result.success == true) {
+//                    console.log(result.message.reservation_edit[0].reservation_agency);
+                    arr = $.inArray(result.message.reservation_edit[0].reservation_agency, ['None Agency', 'Agoda', 'Booking', 'Expedia', 'WAKA']);
+                    if (arr > 0) {
+                        $("#reservation_agency").prop('type', 'hidden');
+                        $("#agency").val(result.message.reservation_edit[0].reservation_agency);
+                    } else {
+                        $("#reservation_agency").prop('type', 'text');
+                        $("#agency").val('Other');
+                    }
+
+                    if (result.message.reservation_edit[0].reservation_status == 1) {
+                        $("#out_balance").prop('type', 'number');
+                    } else {
+                        $("#out_balance").prop('type', 'hidden');
+                    }
+
                     $("#reservation_room_name").text(result.message.reservation_edit[0].room_name + ' : ' + result.message.reservation_edit[0].room_seq);
                     $("#reservation_name").val(result.message.reservation_edit[0].reservation_customer_name);
                     $("#reservation_tel").val(result.message.reservation_edit[0].reservation_tel);
                     $("#reservation_guest").val(result.message.reservation_edit[0].reservation_guest);
+                    $("#reservation_child").val(result.message.reservation_edit[0].reservation_child);
                     $("#reservation_cost").val(result.message.reservation_edit[0].reservation_cost);
                     $("#reservation_agency").val(result.message.reservation_edit[0].reservation_agency);
                     $("#reservation_status").val(result.message.reservation_edit[0].reservation_status);
+                    $("#out_balance").val(result.message.reservation_edit[0].out_balance);
+                    $("#note").html(result.message.reservation_edit[0].note);
                     $("#saveReservButton").attr('onclick', 'updateReserv(' + result.message.reservation_edit[0].reservation_room_id + ')');
                 } else {
                     alert(result.message);
@@ -223,9 +264,12 @@
         var reservation_name = $("#reservation_name").val();
         var reservation_tel = $("#reservation_tel").val();
         var reservation_guest = $("#reservation_guest").val();
+        var reservation_child = $("#reservation_child").val();
         var reservation_cost = $("#reservation_cost").val();
         var reservation_agency = $("#reservation_agency").val();
         var reservation_status = $("#reservation_status").val();
+        var out_balance = $("#out_balance").val();
+        var note = $("#note").val();
 
         $.ajax({
             url: '<?php echo base_url("admin/reservation/update/'+id+'")?>',
@@ -234,9 +278,12 @@
                 reservation_name: reservation_name,
                 reservation_tel: reservation_tel,
                 reservation_guest: reservation_guest,
+                reservation_child: reservation_child,
                 reservation_cost: reservation_cost,
                 reservation_agency: reservation_agency,
-                reservation_status: reservation_status
+                reservation_status: reservation_status,
+                out_balance: out_balance,
+                note: note
             },
             dataType: 'json',
             success: function (result) {
@@ -247,73 +294,10 @@
                     alert(result.message);
                 }
             },
-            error: function (result) {
+            error: function () {
                 alert('Failed');
             }
         });
-    }
-
-    var id = "";
-
-    function saveRate(id) {
-        var rate_fromdate = $("#rate_fromdate" + id + "").val();
-        var rate_todate = $("#rate_todate" + id + "").val();
-        var rate_first = $("#rate_first" + id + "").val();
-        var rate_second = $("#rate_second" + id + "").val();
-        var rate_holiday = $("#rate_holiday" + id + "").val();
-        var rate_breakfast = $("#rate_breakfast" + id + "").val();
-        var rate_extrabed = $("#rate_extrabed" + id + "").val();
-        var url = "<?= base_url('admin/room/rate/update/"+id+"') ?>";
-        var confirm = window.confirm('Are you sure to save?');
-        if (confirm == true) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    rate_fromdate: rate_fromdate,
-                    rate_todate: rate_todate,
-                    rate_first: rate_first,
-                    rate_second: rate_second,
-                    rate_holiday: rate_holiday,
-                    rate_breakfast: rate_breakfast,
-                    rate_extrabed: rate_extrabed
-                },
-                success: function (result) {
-                    if (result.success == true) {
-                        alert(result.message);
-                    } else {
-                        alert(result.message);
-                    }
-                },
-                error: function (result) {
-                    alert('Save Artwork failed!');
-                }
-            });
-        }
-    }
-
-    function deleteRate(id) {
-        var url = "<?= base_url('admin/room/rate/delete/"+id+"') ?>";
-        var confirm = window.confirm('Are you sure to delete?');
-        if (confirm == true) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function (result) {
-                    if (result.success == true) {
-                        alert(result.message);
-                        window.location.reload();
-                    } else {
-                        alert(result.message);
-                    }
-                },
-                error: function (result) {
-                    alert('Delete Artwork failed!');
-                }
-            });
-        }
     }
 
 </script>
