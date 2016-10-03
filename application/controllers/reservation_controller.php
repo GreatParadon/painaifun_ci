@@ -11,6 +11,7 @@ class reservation_controller extends CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
         $this->load->library('session');
+        $this->load->database();
     }
 
     public function index()
@@ -48,8 +49,17 @@ class reservation_controller extends CI_Controller
         // $session = $session->userdata('token');
         if ($session) {
             $reservation_insert_date = array('reservation_date' => $this->input->post('reservation_date'));
-            $reservation_insert_id = $this->reservation_model->insertReservation($reservation_insert_date);
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('success' => true, 'message' => 'Store success')));
+            $this->db->where('reservation_date', $reservation_insert_date['reservation_date']);
+            $query = $this->db->get('reservation');
+            $result = $query->result();
+
+            if ($result) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('success' => false, 'message' => 'Date are duplicate')));
+            } else {
+                $reservation_insert_id = $this->reservation_model->insertReservation($reservation_insert_date);
+                $this->output->set_content_type('application/json')->set_output(json_encode(array('success' => true, 'message' => 'Store success')));
+            }
+
         } else {
             redirect("admin");
         }
@@ -87,12 +97,15 @@ class reservation_controller extends CI_Controller
 
         // $session = $session->userdata('token');
         if ($session) {
-            $reservation_update_data = array('reservation_customer_name' => $this->input->post('reservation_name'),
+            $reservation_update_data = array(
+                'reservation_customer_name' => $this->input->post('reservation_name'),
+                'reservation_email' => $this->input->post('reservation_email'),
                 'reservation_tel' => $this->input->post('reservation_tel'),
                 'reservation_guest' => $this->input->post('reservation_guest'),
                 'reservation_child' => $this->input->post('reservation_child'),
                 'reservation_cost' => $this->input->post('reservation_cost'),
                 'reservation_agency' => $this->input->post('reservation_agency'),
+                'reservation_agency_code' => $this->input->post('reservation_agency_code'),
                 'reservation_status' => $this->input->post('reservation_status'),
                 'out_balance' => $this->input->post('out_balance'),
                 'note' => $this->input->post('note')

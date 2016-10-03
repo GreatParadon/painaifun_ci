@@ -59,6 +59,9 @@
                         <label for="reservation_name">ชื่อผู้จอง</label>
                         <input type="text" value="" name="reservation_name" id="reservation_name"
                                class="form-control input-sm" required>
+                        <label for="reservation_email">อีเมลล์</label>
+                        <input type="email" value="" name="reservation_email" id="reservation_email"
+                               class="form-control input-sm" required>
                         <label for="reservation_tel">เบอร์โทรศัพท์ ติดต่อ</label>
                         <input type="text" value="" name="reservation_tel" id="reservation_tel"
                                class="form-control input-sm" required>
@@ -81,6 +84,8 @@
                             <option value="WAKA">WAKA</option>
                             <option value="Other">Other</option>
                         </select>
+                        <input type="text" value="" name="reservation_agency_code" id="reservation_agency_code"
+                               class="form-control input-sm" placeholder="Agency Code" required>
                         <input type="hidden" name="reservation_agency" id="reservation_agency"
                                class="form-control input-sm" required placeholder="Other Agency">
                         <label for="reservation_status">สถานะ</label>
@@ -213,12 +218,14 @@
             dataType: 'json',
             success: function (result) {
                 $("#reservation_name").empty();
+                $("#reservation_email").empty();
                 $("#reservation_tel").empty();
                 $("#reservation_guest").empty();
                 $("#reservation_child").empty();
                 $("#reservation_cost").empty();
 //                $("#reservation_agency").empty();
 //                $("#reservation_status").empty();
+                $("#reservation_agency_code").empty();
                 $("#out_balance").empty();
                 $("#note").empty();
 
@@ -241,11 +248,13 @@
 
                     $("#reservation_room_name").text(result.message.reservation_edit[0].room_name + ' : ' + result.message.reservation_edit[0].room_seq);
                     $("#reservation_name").val(result.message.reservation_edit[0].reservation_customer_name);
+                    $("#reservation_email").val(result.message.reservation_edit[0].reservation_email);
                     $("#reservation_tel").val(result.message.reservation_edit[0].reservation_tel);
                     $("#reservation_guest").val(result.message.reservation_edit[0].reservation_guest);
                     $("#reservation_child").val(result.message.reservation_edit[0].reservation_child);
                     $("#reservation_cost").val(result.message.reservation_edit[0].reservation_cost);
                     $("#reservation_agency").val(result.message.reservation_edit[0].reservation_agency);
+                    $("#reservation_agency_code").val(result.message.reservation_edit[0].reservation_agency_code);
                     $("#reservation_status").val(result.message.reservation_edit[0].reservation_status);
                     $("#out_balance").val(result.message.reservation_edit[0].out_balance);
                     $("#note").html(result.message.reservation_edit[0].note);
@@ -262,11 +271,13 @@
 
     function updateReserv(id) {
         var reservation_name = $("#reservation_name").val();
+        var reservation_email = $("#reservation_email").val();
         var reservation_tel = $("#reservation_tel").val();
         var reservation_guest = $("#reservation_guest").val();
         var reservation_child = $("#reservation_child").val();
         var reservation_cost = $("#reservation_cost").val();
         var reservation_agency = $("#reservation_agency").val();
+        var reservation_agency_code = $("#reservation_agency_code").val();
         var reservation_status = $("#reservation_status").val();
         var out_balance = $("#out_balance").val();
         var note = $("#note").val();
@@ -276,11 +287,13 @@
             type: 'POST',
             data: {
                 reservation_name: reservation_name,
+                reservation_email: reservation_email,
                 reservation_tel: reservation_tel,
                 reservation_guest: reservation_guest,
                 reservation_child: reservation_child,
                 reservation_cost: reservation_cost,
                 reservation_agency: reservation_agency,
+                reservation_agency_code: reservation_agency_code,
                 reservation_status: reservation_status,
                 out_balance: out_balance,
                 note: note

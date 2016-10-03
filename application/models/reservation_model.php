@@ -8,8 +8,8 @@ class reservation_model extends CI_Model {
     }
 
 	public function ReservationList(){
-		$sql = "SELECT * FROM reservation";
-		$query = $this->db->query($sql);
+		$this->db->order_by("reservation_date", "desc");
+		$query = $this->db->get('reservation');
 		return $query->result_array();
 	}
 

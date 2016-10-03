@@ -107,9 +107,10 @@
                     data: {reservation_date: reservation_date},
                     success: function (result) {
                         if (result.success == true) {
+                            alert(result.message);
                             window.location.reload();
                         } else {
-                            alert('Something went wrong!');
+                            alert(result.message);
                         }
                     },
                     error: function () {
